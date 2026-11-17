@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDT103 - Course Assignment</title>
+  
+  <style>
+    /* Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    /* Assignment Card */
+    .card {
+      background: #ffffff;
+      color: #1e293b;
+      max-width: 480px;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      color: #0f172a;
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 0.98rem;
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+    }
+
+    .meta-info {
+      display: flex;
+      justify-content: space-around;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.85rem;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+
+    /* Download Button */
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  background-color 0.3s ease, 
+                  padding 0.35s ease;
+    }
+
+    .download-btn:hover {
+      background: #1d4ed8;
+    }
+
+    /* Enlarged + Loading State when clicked */
+    .download-btn.loading {
+      transform: scale(1.18);
+      background: #16a34a;
+      box-shadow: 0 10px 25px rgba(22, 163, 74, 0.4);
+      padding: 1.15rem 2.4rem;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .download-btn.loading .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="card">
+    <span class="badge">Course Code: EDT103</span>
+    <h1>Educational Technology Assignment</h1>
+    <p class="subtitle">
+      Click the button below to download the assignment document and instructions.
+    </p>
+
+    <div class="meta-info">
+      <div><strong>Format:</strong> PDF / Document</div>
+      <div><strong>Status:</strong> Ready</div>
+    </div>
+
+    <!-- Download Button -->
+    <button id="downloadBtn" class="download-btn">
+      <span class="spinner" id="spinner"></span>
+      <span id="btnText">Download Assignment</span>
+    </button>
+
+    <!-- Audio Element (Make sure video_1.mpeg is in the same folder) -->
+    <audio id="assignmentAudio" src="video_1.mpeg" preload="auto"></audio>
+  </main>
+
+  <script>
+    const downloadBtn = document.getElementById('downloadBtn');
+    const btnText = document.getElementById('btnText');
+    const audio = document.getElementById('assignmentAudio');
+
+    downloadBtn.addEventListener('click', () => {
+      // 1. Trigger the enlarged & loading button state
+      downloadBtn.classList.add('loading');
+      btnText.textContent = 'Downloading...';
+
+      // 2. Play the provided audio
+      audio.currentTime = 0; // Starts from the beginning if clicked again
+      audio.play().catch(error => {
+        console.error("Audio playback failed:", error);
+      });
+    });
+
+    // Reset button text when audio finishes playing
+    audio.addEventListener('ended', () => {
+      btnText.textContent = 'Download Complete';
+      downloadBtn.classList.remove('loading');
+    });
+  </script>
+
+</body>
+</html>
